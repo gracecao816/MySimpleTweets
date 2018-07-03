@@ -24,5 +24,13 @@
         android:layout_marginStart="12dp"
         android:onClick="onSubmit"
         android:text="Post" />
+
+    <TextView
+        android:id="@+id/tvCharCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/etCompose"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="62dp" />
 </RelativeLayout
     >
