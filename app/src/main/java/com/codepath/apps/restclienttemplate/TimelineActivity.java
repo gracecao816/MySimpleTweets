@@ -1,10 +1,13 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -23,6 +26,8 @@ public class TimelineActivity extends AppCompatActivity {
     TweetAdapter tweetAdapter;
     ArrayList<Tweet> tweets;
     RecyclerView rvTweets;
+
+    public static final int REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +51,23 @@ public class TimelineActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+
     private void populateTimeline() {
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-//                Log.d("TwitterClient", response.toString());
+                //Log.d("TwitterClient", response.toString());
                 //iterate through the JSON array
                 //for eacj entry, deserialize the JSON object
                 for (int i = 0; i < response.length(); i++) {
-//convert each object to a Tweet model
+                    //convert each object to a Tweet model
                     //add that Tweet model to our data source
                     //notify the adapter that we've added an item
                     try {
@@ -94,4 +107,20 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
+    public void createTweet(MenuItem item) {
+            Intent makeTweet = new Intent(TimelineActivity.this, ComposeActivity.class);
+            startActivityForResult(makeTweet, REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // check request code and result code first
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            // Use data parameter
+            Tweet tweet = (Tweet) data.getSerializableExtra("Tweet");
+            tweets.add(0, tweet);
+            tweetAdapter.notifyItemInserted(0);
+            rvTweets.scrollToPosition(0);
+        }
+    }
 }
