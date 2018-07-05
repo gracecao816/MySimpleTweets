@@ -6,9 +6,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -35,6 +36,9 @@ public class TimelineActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
+        //toolbar view
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         //lookup the swipe container view
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         //setup refresh listener which triggers new data loading
@@ -95,12 +99,12 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
 
 
     private void populateTimeline() {
@@ -109,7 +113,7 @@ public class TimelineActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 //Log.d("TwitterClient", response.toString());
                 //iterate through the JSON array
-                //for eacj entry, deserialize the JSON object
+                //for each entry, deserialize the JSON object
                 for (int i = 0; i < response.length(); i++) {
                     //convert each object to a Tweet model
                     //add that Tweet model to our data source
@@ -155,9 +159,7 @@ public class TimelineActivity extends AppCompatActivity {
             Intent makeTweet = new Intent(TimelineActivity.this, ComposeActivity.class);
             startActivityForResult(makeTweet, REQUEST_CODE);
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // check request code and result code first
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             // Use data parameter
@@ -167,6 +169,12 @@ public class TimelineActivity extends AppCompatActivity {
             rvTweets.scrollToPosition(0);
         }
     }
+
+    public void onClick (View v) {
+        Intent makeTweet = new Intent(TimelineActivity.this, ComposeActivity.class);
+        startActivityForResult(makeTweet, REQUEST_CODE);
+    }
+
 
 
 }
