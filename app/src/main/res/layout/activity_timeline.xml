@@ -69,7 +69,6 @@
         android:layout_marginEnd="21dp"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:title="Loading..."
         android:visible="false" />
 
 </RelativeLayout>

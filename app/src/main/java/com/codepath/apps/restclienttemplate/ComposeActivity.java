@@ -80,4 +80,5 @@ private final TextWatcher textEditorWatcher = new TextWatcher() {
 
     }
 };
+
 }
