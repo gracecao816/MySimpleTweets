@@ -42,34 +42,44 @@
         android:layout_centerHorizontal="true"
         app:srcCompat="@drawable/twitter_logo" />
 
-    <EditText
+    <MultiAutoCompleteTextView
         android:id="@+id/etCompose"
-        android:layout_width="match_parent"
-        android:layout_height="41dp"
+        android:layout_width="373dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="116dp" />
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="93dp" />
 
     <Button
         android:id="@+id/btnPost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="167dp"
-        android:background="@color/twitter_blue_50"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="42dp"
+        android:layout_marginEnd="27dp"
+        android:background="@color/twitter_blue_30"
         android:onClick="onSubmit"
-        android:text="Post" />
+        android:text="Tweet" />
 
     <TextView
         android:id="@+id/tvCharCount"
-        android:layout_width="wrap_content"
+        android:layout_width="49dp"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/etCompose"
         android:layout_alignParentTop="true"
         android:layout_marginTop="62dp" />
 
+    <ImageButton
+        android:id="@+id/ibHome"
+        android:layout_width="50dp"
+        android:layout_height="53dp"
+        android:layout_alignBottom="@+id/imageView3"
+        android:layout_alignStart="@+id/tvCharCount"
+        android:background="@android:color/transparent"
+        android:onClick="onClickHome"
+        app:srcCompat="@drawable/ic_home_twitter" />
 
-</RelativeLayout
-    >
+
+</RelativeLayout>

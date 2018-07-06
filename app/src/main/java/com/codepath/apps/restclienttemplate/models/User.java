@@ -11,6 +11,7 @@ public class User implements Serializable {
     public long uid;
     public String screenName;
     public String profileImageUrl;
+
     //deserialize the JSON
     public static User fromJSON(JSONObject json) throws JSONException {
         User user = new User();

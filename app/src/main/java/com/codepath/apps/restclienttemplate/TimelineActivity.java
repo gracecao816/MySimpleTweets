@@ -33,7 +33,6 @@ public class TimelineActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeContainer;
     ProgressBar progressBar;
     ImageButton replyButton;
-    public static boolean isReply;
 
     public static final int REQUEST_CODE = 1;
 
@@ -181,8 +180,8 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     public void onClick(View v) {
-        isReply = false;
         Intent makeTweet = new Intent(TimelineActivity.this, ComposeActivity.class);
+        makeTweet.putExtra("isReply", Boolean.FALSE);
         startActivityForResult(makeTweet, REQUEST_CODE);
     }
 
@@ -195,13 +194,5 @@ public class TimelineActivity extends AppCompatActivity {
         // Hide progress item
         progressBar.setVisibility(View.INVISIBLE);
     }
-
-    public void onReplyClick(View v) {
-        isReply = true;
-        Intent replyTweet = new Intent(TimelineActivity.this, ComposeActivity.class);
-        startActivityForResult(replyTweet, REQUEST_CODE);
-    }
-
-
 
 }

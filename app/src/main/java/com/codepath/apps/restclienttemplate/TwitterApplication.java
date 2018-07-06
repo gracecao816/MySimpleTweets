@@ -23,7 +23,7 @@ public class TwitterApplication extends Application {
     public void onCreate() {
         super.onCreate();
         // when upgrading versions, kill the original tables by using
-		// fallbackToDestructiveMigration()
+        // fallbackToDestructiveMigration()
         myDatabase = Room.databaseBuilder(this, MyDatabase.class,
                 MyDatabase.NAME).fallbackToDestructiveMigration().build();
 

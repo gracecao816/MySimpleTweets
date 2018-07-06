@@ -10,7 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-public class Tweet implements Serializable{
+public class Tweet implements Serializable {
     //list out the attributes
     public String body;
     public long uid; //the database ID for the tweet
