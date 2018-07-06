@@ -26,6 +26,7 @@ public class ComposeActivity extends AppCompatActivity {
     String message;
     Tweet tweet;
     TextView charCount;
+    public static boolean isReply;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,29 +39,59 @@ public class ComposeActivity extends AppCompatActivity {
         userMessage.addTextChangedListener(textEditorWatcher);
     }
 
+    public void onSubmitReply (View v) {
+        if (isReply) {
+            message = "@" + userMessage.getText().toString();
+            client.sendTweet(message, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    try {
+                        tweet = Tweet.fromJSON(response);
+                        Intent i = new Intent();
+                        //sending data back once it finishes
+                        i.putExtra("Tweet", tweet);
+                        setResult(RESULT_OK, i);
+                        finish();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    throwable.printStackTrace();
+                }
+            });
+        }
+
+    }
+
 
     public void onSubmit(View v) {
-        message = userMessage.getText().toString();
-        client.sendTweet(message, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try {
-                    tweet = Tweet.fromJSON(response);
-                    Intent i = new Intent();
-                    //sending data back once it finishes
-                    i.putExtra("Tweet", tweet);
-                    setResult(RESULT_OK, i);
-                    finish();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        if (!isReply) {
+            message = userMessage.getText().toString();
+            client.sendTweet(message, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    try {
+                        tweet = Tweet.fromJSON(response);
+                        Intent i = new Intent();
+                        //sending data back once it finishes
+                        i.putExtra("Tweet", tweet);
+                        setResult(RESULT_OK, i);
+                        finish();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                throwable.printStackTrace();
-            }
-        });
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    throwable.printStackTrace();
+                }
+
+            });
+        }
 
 }
 private final TextWatcher textEditorWatcher = new TextWatcher() {

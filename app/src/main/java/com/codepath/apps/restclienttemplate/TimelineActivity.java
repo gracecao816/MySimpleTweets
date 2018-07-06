@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -31,6 +32,8 @@ public class TimelineActivity extends AppCompatActivity {
     RecyclerView rvTweets;
     private SwipeRefreshLayout swipeContainer;
     ProgressBar progressBar;
+    ImageButton replyButton;
+    public static boolean isReply;
 
     public static final int REQUEST_CODE = 1;
 
@@ -39,6 +42,7 @@ public class TimelineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
         progressBar = (ProgressBar) findViewById(R.id.miActionProgress);
+        replyButton = (ImageButton) findViewById(R.id.ibReply);
         //toolbar view
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -72,7 +76,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     }
 
-    public void fetchTimelineAsync (int page) {
+    public void fetchTimelineAsync(int page) {
         showProgressBar();
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -97,13 +101,13 @@ public class TimelineActivity extends AppCompatActivity {
                 //signal that refresh has finished
                 swipeContainer.setRefreshing(false);
             }
+
             public void onFailure(Throwable e) {
                 Log.d("DEBUG", "Fetch timeline error: " + e.toString());
                 hideProgressBar();
             }
         });
     }
-
 
 
     private void populateTimeline() {
@@ -161,9 +165,10 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     public void createTweet(MenuItem item) {
-            Intent makeTweet = new Intent(TimelineActivity.this, ComposeActivity.class);
-            startActivityForResult(makeTweet, REQUEST_CODE);
+        Intent makeTweet = new Intent(TimelineActivity.this, ComposeActivity.class);
+        startActivityForResult(makeTweet, REQUEST_CODE);
     }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // check request code and result code first
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
@@ -175,7 +180,8 @@ public class TimelineActivity extends AppCompatActivity {
         }
     }
 
-    public void onClick (View v) {
+    public void onClick(View v) {
+        isReply = false;
         Intent makeTweet = new Intent(TimelineActivity.this, ComposeActivity.class);
         startActivityForResult(makeTweet, REQUEST_CODE);
     }
@@ -189,6 +195,13 @@ public class TimelineActivity extends AppCompatActivity {
         // Hide progress item
         progressBar.setVisibility(View.INVISIBLE);
     }
+
+    public void onReplyClick(View v) {
+        isReply = true;
+        Intent replyTweet = new Intent(TimelineActivity.this, ComposeActivity.class);
+        startActivityForResult(replyTweet, REQUEST_CODE);
+    }
+
 
 
 }

@@ -29,4 +29,20 @@
         android:layout_marginLeft="5dp"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:text="TextView" />
+
+    <ImageButton
+        android:id="@+id/ibReply"
+        android:layout_width="33dp"
+        android:layout_height="28dp"
+        android:layout_alignBottom="@+id/ivProfileImage"
+        android:layout_alignParentEnd="true"
+        app:srcCompat="@drawable/ic_vector_compose_dm" />
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:text="TextView" />
 </RelativeLayout>
