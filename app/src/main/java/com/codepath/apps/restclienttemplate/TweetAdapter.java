@@ -100,6 +100,15 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     tempActivity.startActivityForResult(replyTweet, 0);
                 }
             });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                   Intent openDetail = new Intent(v.getContext(), DetailActivity.class);
+                   openDetail.putExtra("tweet", mTweets.get(getAdapterPosition()));
+                   Activity detailActivity = (Activity) v.getContext();
+                   detailActivity.startActivity(openDetail);
+                }
+            });
 
         }
     }
